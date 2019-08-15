@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+
+from __future__ import print_function
 
 from ansible.module_utils.common.dict_transformations import recursive_diff
 from ansible.template import Templar
@@ -47,15 +49,24 @@ def diff_hosts(before, beforedir, after, afterdir):
     return result
 
 
-def run(args):
-
-    with open(args[0]) as f:
+def find_changes(inventory_a, dir_a, inventory_b, dir_b):
+    with open(inventory_a) as f:
         data_a = yaml.load(f.read(), Loader=yaml.CSafeLoader)
-    with open(args[2]) as f:
+    with open(inventory_b) as f:
         data_b = yaml.load(f.read(), Loader=yaml.CSafeLoader)
-    changed_hosts = diff_hosts(data_a['_meta']['hostvars'], args[1],
-                               data_b['_meta']['hostvars'], args[3])
+    changed_hosts = diff_hosts(data_a['_meta']['hostvars'], dir_a,
+                               data_b['_meta']['hostvars'], dir_b)
 
+    a_tree = build_tree(data_a)
+    changed_groups = dict()
+    changed_groups['deleted'] = search_groups(changed_hosts['deleted'], a_tree)
+    changed_groups['created'] = search_groups(changed_hosts['created'], build_tree(data_b))
+    changed_groups['updated'] = search_groups(list(changed_hosts['updated'].keys()), a_tree)
+    return changed_hosts, changed_groups
+
+
+def run(args):
+    changed_hosts, changed_groups = find_changes(*args)
     for key in changed_hosts:
         for host in changed_hosts[key]:
             print(f"{SYMBOL[key]}{host}")
@@ -66,17 +77,12 @@ def run(args):
         for after in diff[1]:
             print(f"> {after}: {diff[1][after]}")
 
-    a_tree = build_tree(data_a)
-    deleted_groups = search_groups(changed_hosts['deleted'], a_tree)
-    created_groups = search_groups(changed_hosts['created'], build_tree(data_b))
-    updated_groups = search_groups(list(changed_hosts['updated'].keys()), a_tree)
-
-    if created_groups:
-        print("created groups: " + ', '.join(created_groups))
-    if deleted_groups:
-        print("deleted groups: " + ', '.join(deleted_groups))
-    if updated_groups:
-        print("updated groups: " + ', '.join(updated_groups))
+    if changed_groups['created']:
+        print("created groups: " + ', '.join(changed_groups['created']))
+    if changed_groups['deleted']:
+        print("deleted groups: " + ', '.join(changed_groups['deleted']))
+    if changed_groups['updated']:
+        print("updated groups: " + ', '.join(changed_groups['updated']))
 
 
 def main():
