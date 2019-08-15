@@ -5,7 +5,6 @@ WORKDIR /work
 RUN apt-get update && \
     apt-get install -y git make gcc g++ libyaml-dev libffi-dev libssl-dev time
 COPY requirements.txt /work
-RUN pip install -r requirements.txt
 #RUN apk add --no-cache --virtual .build-deps make gcc g++ py-yaml yaml-dev libffi-dev openssl-dev && pip install -r /work/requirements.txt && apk del .build-deps
 COPY ansible_inventory_diff /pip/ansible_inventory_diff
 COPY setup.py /pip/

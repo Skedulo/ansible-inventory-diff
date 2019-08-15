@@ -8,4 +8,5 @@ setup(name='ansible_inventory_diff',
               'ansible-inventory-diff = ansible_inventory_diff.__main__:main'
           ]
       },
+      install_requires=['ansible>=2.4.0']
       )
