@@ -23,16 +23,23 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -z "${commit:-}" ] ; then
-  echo "Usage: $0 [-v] <commitish> [group]"
+  echo "Usage: $0 [-v] <commitish> [--to <commitish>] [group]"
   exit
 fi
 
 mkdir /src && cd /src
-git clone -nqs /git a
-git clone -nqs /git b
-
+# Fix refs to match /git
+git clone -nqs /git a && rm -rf a/.git/refs && cp -r /git/.git/refs /git/.git/config a/.git
 (cd a && git reset -q --hard "${commit}")
-(cd b && git reset -q --hard "${tocommit:-HEAD}")
+
+if [ -n "${tocommit:-}" ]; then
+  git clone -nqs /git b && rm -rf b/.git/refs && cp -r /git/.git/refs /git/.git/config b/.git
+  (cd b && git reset -q --hard "${tocommit}")
+else
+  # allow comparison of uncommitted changes
+  ln -s /git b
+fi
+
 
 mkdir /diff
 (cd a && ansible-inventory --list "$@" --output /diff/a.yml)
