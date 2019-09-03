@@ -59,8 +59,8 @@ def find_changes(inventory_a, dir_a, inventory_b, dir_b):
 
     a_tree = build_tree(data_a)
     changed_groups = dict()
-    changed_groups['deleted'] = search_groups(changed_hosts['deleted'], a_tree)
-    changed_groups['created'] = search_groups(changed_hosts['created'], build_tree(data_b))
+    changed_groups['deleted'] = search_groups(list(changed_hosts['deleted']), a_tree)
+    changed_groups['created'] = search_groups(list(changed_hosts['created']), build_tree(data_b))
     changed_groups['updated'] = search_groups(list(changed_hosts['updated'].keys()), a_tree)
     return changed_hosts, changed_groups
 
