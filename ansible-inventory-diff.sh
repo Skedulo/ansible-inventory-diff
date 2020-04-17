@@ -45,4 +45,5 @@ mkdir /diff
 (cd a && ansible-inventory --list "$@" --output /diff/a.yml)
 (cd b && ansible-inventory --list "$@" --output /diff/b.yml)
 
+cd /git
 ansible-inventory-diff ${verbose:-} /diff/a.yml /src/a /diff/b.yml /src/b
