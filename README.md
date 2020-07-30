@@ -19,7 +19,7 @@ The result of the diff
 ## Example usage
 
 ```
-uses: actions/ansible-inventory-diff@v1
+uses: actions/ansible-inventory-diff@v1.2
 with:
   base-ref: v0.1
 ```
