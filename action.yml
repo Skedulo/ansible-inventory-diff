@@ -1,0 +1,16 @@
+# action.yml
+name: 'ansible-inventory-diff'
+description: 'Determines the difference in inventory variables between two git refs'
+inputs:
+  base-ref:  # id of input
+    description: 'Base git reference of comparison'
+    required: true
+    default: 'origin/main'
+outputs:
+  result: # id of output
+    description: 'output of ansible-inventory-diff'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.base-ref }}
