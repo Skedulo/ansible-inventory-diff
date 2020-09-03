@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run ansible inventory diff
         id: run
-        uses: actions/ansible-inventory-diff@v1.4
+        uses: Skedulo/ansible-inventory-diff@v1.5
         with:
           base-ref: origin/main
       - name: ansible inventory diff
