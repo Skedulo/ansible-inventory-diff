@@ -14,7 +14,7 @@ outputs:
     description: 'output of ansible-inventory-diff'
 runs:
   using: 'docker'
-  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc4-3-g177a20e
+  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc5-2-g19f7b8e
   entrypoint: '/bin/action.sh'
   args:
     - ${{ inputs.base-ref }}
