@@ -15,6 +15,6 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  entrypoint: 'action.sh'
+  entrypoint: '/bin/action.sh'
   args:
     - ${{ inputs.base-ref }}
