@@ -1,8 +1,9 @@
 # action.yml
 name: 'ansible-inventory-diff'
 description: 'Determines the difference in inventory variables between two git refs'
-icon: info
-color: blue
+branding:
+  icon: info
+  color: blue
 inputs:
   base-ref:  # id of input
     description: 'Base git reference of comparison'
