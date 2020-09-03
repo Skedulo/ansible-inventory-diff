@@ -19,7 +19,20 @@ The result of the diff
 ## Example usage
 
 ```
-uses: actions/ansible-inventory-diff@v1.2
-with:
-  base-ref: v0.1
+on: [push]
+
+jobs:
+  ansible_inventory_diff:
+    runs-on: ubuntu-latest
+    name: ansible-inventory-diff
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run ansible inventory diff
+        id: run
+        uses: actions/ansible-inventory-diff@v1.4
+        with:
+          base-ref: origin/main
+      - name: ansible inventory diff
+        run: echo "${{ steps.run.output.result }}"
 ```
