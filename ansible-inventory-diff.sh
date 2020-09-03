@@ -11,6 +11,10 @@ while [ $# -gt 0 ]; do
       tocommit="$2"
       shift
       ;;
+    "--dir")
+      gitdir="$2"
+      shift
+      ;;
     *)
       if [ -z "${commit:-}" ] ; then
         commit="$1"
@@ -27,17 +31,19 @@ if [ -z "${commit:-}" ] ; then
   exit
 fi
 
+gitroot="${gitdir:-/git}"
+
 mkdir /src && cd /src
-# Fix refs to match /git
-git clone -nqs /git a && rm -rf a/.git/refs && cp -r /git/.git/refs /git/.git/config a/.git
+# Fix refs to match ${gitroot}
+git clone -nqs "${gitroot}" a && rm -rf a/.git/refs && cp -r ${gitroot}/.git/refs ${gitroot}/.git/config a/.git
 (cd a && git reset -q --hard "${commit}")
 
 if [ -n "${tocommit:-}" ]; then
-  git clone -nqs /git b && rm -rf b/.git/refs && cp -r /git/.git/refs /git/.git/config b/.git
+  git clone -nqs ${gitroot} b && rm -rf b/.git/refs && cp -r ${gitroot}/.git/refs ${gitroot}/.git/config b/.git
   (cd b && git reset -q --hard "${tocommit}")
 else
   # allow comparison of uncommitted changes
-  ln -s /git b
+  ln -s ${gitroot} b
 fi
 
 
@@ -45,5 +51,5 @@ mkdir /diff
 (cd a && ansible-inventory --list "$@" --output /diff/a.yml)
 (cd b && ansible-inventory --list "$@" --output /diff/b.yml)
 
-cd /git
+cd ${gitroot}
 ansible-inventory-diff ${verbose:-} /diff/a.yml /src/a /diff/b.yml /src/b
