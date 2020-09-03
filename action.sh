@@ -1,4 +1,4 @@
 #!/bin/bash
 set -eu
 
-echo "::set-output name=result::"$(./ansible-inventory-diff "$@")
+echo "::set-output name=result::"$(./ansible-inventory-diff.sh "$@")
