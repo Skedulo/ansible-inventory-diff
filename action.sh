@@ -1,4 +1,6 @@
 #!/bin/bash
 set -eu
 
-echo "::set-output name=result::"$(/bin/ansible-inventory-diff.sh --dir /github/workspace "$@")
+result="$(/bin/ansible-inventory-diff.sh --dir /github/workspace $@)"
+echo "$result"
+echo "::set-output name=result::$result"
