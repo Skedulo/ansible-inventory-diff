@@ -5,15 +5,26 @@ branding:
   icon: info
   color: blue
 inputs:
-  base-ref:  # id of input
+  base-ref:
     description: 'Base git reference of comparison'
-    required: true
+    required: false
     default: 'origin/main'
+  truncate:
+    default: 200
+    required: false
+    description:
+      Maximum number of lines taken from result to create snippet
 outputs:
-  result: # id of output
-    description: 'output of ansible-inventory-diff'
+  result:
+    description: 'full output of ansible-inventory-diff'
+  snippet:
+    description:
+      lines of result before truncation (or entire result if shorter),
+      suitable for a github comment
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.15-rc14-2-g5443f51
+  entrypoint: '/bin/action.sh'
   args:
     - ${{ inputs.base-ref }}
+    - ${{ inputs.truncate }}

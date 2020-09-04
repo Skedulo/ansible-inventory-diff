@@ -9,7 +9,8 @@ COPY requirements.txt /work
 COPY ansible_inventory_diff /pip/ansible_inventory_diff
 COPY setup.py /pip/
 RUN pip install /pip
-COPY ansible-inventory-diff.sh /bin/
-RUN chmod 755 /bin/ansible-inventory-diff.sh
+COPY ansible-inventory-diff.sh action.sh /bin/
+RUN chmod 755 /bin/ansible-inventory-diff.sh /bin/action.sh
+
 
 ENTRYPOINT ["/bin/ansible-inventory-diff.sh"]
