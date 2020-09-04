@@ -23,7 +23,7 @@ outputs:
       suitable for a github comment
 runs:
   using: 'docker'
-  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc13-1-g4626665
+  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.15-rc14-2-g5443f51
   entrypoint: '/bin/action.sh'
   args:
     - ${{ inputs.base-ref }}
