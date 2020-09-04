@@ -17,12 +17,12 @@ if [ $length -gt $maxlength ] ; then
   snippet=$(echo "$result" | head -$maxlength)
   omitted=$(($length - $maxlength))
   snippet=$(escape_whitespace "$snippet")
-  echo "::set-result name=snippet::${snippet}%0A...${omitted} lines omitted"
+  echo "::set-output name=snippet::${snippet}%0A...${omitted} lines omitted"
   result=$(escape_whitespace "$result")
 else
   snippet=$(escape_whitespace "$result")
-  echo "::set-result name=snippet::${snippet}"
+  echo "::set-output name=snippet::${snippet}"
   result=$(escape_whitespace "$result")
 fi
 
-echo "::set-result name=result::$result"
+echo "::set-output name=result::$result"
