@@ -9,6 +9,11 @@ inputs:
     description: 'Base git reference of comparison'
     required: false
     default: 'origin/main'
+  truncate:
+    default: 200
+    required: false
+    description:
+      Maximum number of lines taken from result to create snippet
 outputs:
   result:
     description: 'full output of ansible-inventory-diff'
@@ -16,11 +21,6 @@ outputs:
     description:
       lines of result before truncation (or entire result if shorter),
       suitable for a github comment
-  truncate:
-    default: 200
-    required: false
-    description:
-      Maximum number of lines taken from result to create snippet
 runs:
   using: 'docker'
   image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc11-1-ga97eeb6
