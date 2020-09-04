@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 function escape_whitespace {
   local result="$1"
