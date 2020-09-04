@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 set -eux
 
 function escape_whitespace {
