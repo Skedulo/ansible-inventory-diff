@@ -10,11 +10,20 @@ the two
 
 The base reference for the diff comparison (default `origin/main`)
 
+### `truncate`
+
+Number of lines at which to truncate the diff output for the snippet
+(default 200)
+
 ## Outputs
 
 ### `result`
 
-The result of the diff
+The full output of the diff
+
+### `snippet`
+
+A truncated version of the diff suitable for a github comment
 
 ## Example usage
 
@@ -34,5 +43,5 @@ jobs:
         with:
           base-ref: origin/main
       - name: ansible inventory diff
-        run: echo "${{ steps.run.output.result }}"
+        run: echo "${{ steps.run.outputs.result }}"
 ```
