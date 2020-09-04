@@ -23,7 +23,7 @@ outputs:
       Maximum number of lines taken from result to create snippet
 runs:
   using: 'docker'
-  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc8-1-g3647700
+  image: docker://quay.io/skedulo/ansible-inventory-diff:v1.5-rc11-1-ga97eeb6
   entrypoint: '/bin/action.sh'
   args:
     - ${{ inputs.base-ref }}
